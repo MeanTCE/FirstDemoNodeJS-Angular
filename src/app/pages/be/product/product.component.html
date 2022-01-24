@@ -1,0 +1,170 @@
+<div class="mb-4 d-sm-flex align-items-center justify-content-between">
+    <h1 class="mb-0 text-gray-800">รายการสินค้า</h1>
+
+    <div>
+        <a data-bs-toggle="modal" data-bs-target="#modalAdd" class="shadow-sm d-none d-sm-inline-block btn btn-lg btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> เพิ่มรายการ</a>
+    </div>
+
+</div>
+
+<table class="table table-bordered table-striped table-hover mt-4">
+    <thead>
+        <tr class="text-white bg-primary">
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of dataProducts">
+            <td>{{ p.ProductID }}</td>
+            <td><img src="{{ p.ProductPicture }}" width="50"></td>
+            <td>{{ p.ProductName }}</td>
+            <td>{{ p.category[0].CategoryName}}</td>
+            <td>{{ p.UnitPrice }}</td>
+            <td>{{ p.UnitInStock }}</td>
+            <td>{{ p.CreatedDate }}</td>
+            <td>{{ p.ModifiedDate }}</td>
+            <td style="width: 200px;">
+                <a role="button" class="btn btn-warning text-white" (click)="editProducts(p._id)"
+                ><i class="fas fa-edit"></i> Edit</a>&nbsp;
+                <a role="button" class="btn btn-danger text-white" role="button" (click)="deleteProducts(p._id)"
+                ><i class="fas fa-trash-alt"></i> Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal สำหรับไว้เพิ่มรายการสินค้าใหม่-->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">เพิ่มสินค้าใหม่</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="mb-3 row">
+                        <label for="ProductName" class="col-sm-3 col-form-label">ชื่อสินค้า</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="ชื่อสินค้า" [(ngModel)]="dataProductsAdd.ProductName">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="CategoryID" class="col-sm-3 col-form-label">ชื่อหมวดหมู่</label>
+                        <div class="col-sm-9">
+                            <select name="CategoryID" id="CategoryID" placeholder="ชื่อหมวดหมู่" [(ngModel)]="dataProductsAdd.CategoryID">
+                                <option *ngFor="let p of dataProducts"  [ngValue]="p.category[0].CategoryID">
+                                    {{p.category[0].CategoryName}}
+                                </option>            
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="UnitPrice" class="col-sm-3 col-form-label">ราคาสินค้า</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="UnitPrice" id="UnitPrice" placeholder="ราคาสินค้า" [(ngModel)]="dataProductsAdd.UnitPrice">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="UnitInStock" class="col-sm-3 col-form-label">จำนวนสินค้า</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" name="UnitInStock" id="UnitInStock" placeholder="จำนวนสินค้า" [(ngModel)]="dataProductsAdd.UnitInStock">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="ProductPicture" class="col-sm-3 col-form-label">รูปสินค้า</label>
+                        <div class="col-sm-9">
+                            <input type="url" class="form-control" name="ProductPicture" id="ProductPicture" placeholder="Link รูปสินค้า" [(ngModel)]="dataProductsAdd.ProductPicture">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <div class="offset-sm-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary" (click)='submitAddProducts()'>บันทึกข้อมูล</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal สำหรับแก้ไขรายการสินค้า -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">แก้ไขสินค้า</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="container">
+           <form>
+            <div class="mb-3 row">
+                <label for="ProductName" class="col-sm-3 col-form-label">ชื่อสินค้า</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="ProductName" id="ProductName" placeholder="ชื่อสินค้า" [(ngModel)]="dataProductsEdit.ProductName">
+                </div>
+            </div>
+            
+            <div class="mb-3 row">
+                <label for="CategoryID" class="col-sm-3 col-form-label">ชื่อหมวดหมู่</label>
+                <div class="col-sm-9">
+                    <select name="CategoryID" id="CategoryID" placeholder="ชื่อหมวดหมู่" [(ngModel)]="dataProductsEdit.CategoryID">
+                        <option *ngFor="let p of dataProducts"  [ngValue]="p.category[0].CategoryID">
+                            {{p.category[0].CategoryName}}
+                        </option>            
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="UnitPrice" class="col-sm-3 col-form-label">ราคาสินค้า</label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" name="UnitPrice" id="UnitPrice" placeholder="ราคาสินค้า" [(ngModel)]="dataProductsEdit.UnitPrice">
+                </div>
+            </div>  
+            
+            <div class="mb-3 row">
+                <label for="UnitInStock" class="col-sm-3 col-form-label">จำนวนสินค้า</label>
+                <div class="col-sm-9">
+                  <input type="number" class="form-control" name="UnitInStock" id="UnitInStock" placeholder="จำนวนสินค้า" [(ngModel)]="dataProductsEdit.UnitInStock">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="ProductPicture" class="col-sm-3 col-form-label">รูปสินค้า</label>
+                <div class="col-sm-9">
+                    <input type="url" class="form-control" name="ProductPicture" id="ProductPicture" placeholder="Link รูปสินค้า" [(ngModel)]="dataProductsEdit.ProductPicture">
+                </div>
+            </div>
+
+            <input type="hidden" class="form-control" name="pro_id" id="pro_id" [(ngModel)]="dataProductsEdit.pro_id">
+
+            <div class="mb-3 row">
+                <div class="offset-sm-3 col-sm-9">
+                <button type="submit" class="btn btn-primary" (click)='submitEditProducts()'>บันทึกข้อมูล</button>
+                </div>
+            </div>
+
+           </form>
+         </div>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,1183 @@
+SmartInventory
++---assets
+|   +---backend
+|   |   +---css
+|   |   +---img
+|   |   +---js
+|             custom.js
+|   |   \---vendor
+|   \---frontend
+|       +---css
+|             style.css
+|       \---images
+|           \---slide
++---config
+|       mongdb_dbconfig.js
++---routes
+|       api.js
+|       backend.js
+|       frontend.js
+\---views
+    +---layouts
+    |       authen.ejs
+    |       backend.ejs
+    |       frontend.ejs
+    +---pages
+    |   +---backend
+    |   |       category.ejs
+    |   |       create_category.ejs
+    |   |       create_product.ejs
+    |   |       dashboard.ejs
+    |   |       edit_category.ejs
+    |   |       edit_product.ejs
+    |   |       products.ejs
+    |   |       demopdf.ejs
+    |   \---frontend
+    |           about.ejs
+    |           forgotpassword.ejs
+    |           index.ejs
+    |           login.ejs
+    |           register.ejs
+    \---partials
+        +---backend
+        |       footer.ejs
+        |       navbar.ejs
+        |       sidebar.ejs
+        \---frontend
+                footer.ejs
+                navbar.ejs
+---app.js
+---package-lock.json
+---package.json
+---create_category_collection.mongodb
+---create_products_collection.mongodb
+---create_user_role.mongodb
+
+ติดตั้ง package สำหรับ mongodb
+---
+npm i mongodb@4.2.x
+npm i moment@2.29.x
+npm i express-flash@0.0.2
+npm i express-session@1.17.x
+npm i method-override@3.0.0
+npm i express-validator@6.14.x
+
+----------------------------------------------------------------
+เตรียมโครงสร้างโปรเจ็กต์ Client App ด้วย  Angular
+----------------------------------------------------------------
+#1 เช็คว่ามีการติดตั้ง Angular CLI ไว้หรือยัง
+---
+ng version
+
+#2 คำสั่งสร้างโปรเจ็กต์ใหม่ใน Angualr
+---
+cd NodeJSBasic
+ng new SmartINVAngularApp
+
+#3 เปิดโปรเจ็กต์เข้า VSCode
+---
+cd SmartINVAngularApp
+code .
+
+#4 ทดสอบรันโปรเจ็กต์
+--
+ng serve
+หรือ
+ng serve --open
+หรือ 
+ng s -o
+จะเปิดขึ้นเว็บบราวเซอร์ที่ port 4200
+http://localhost:4200
+
+#5 ติดตั้ง bootstrap 5.x framework
+---
+เรียกดูเวอร์ชั่นล่าสุดของ bootstrap
+npm show bootstrap version
+
+เรียกดูเวอร์ชั่นทั้งหมด
+npm show bootstrap versions
+
+ติดตั้ง bootstrap เวอร์ชั่นล่าสุด
+npm install bootstrap@5.1.x
+
+#6 ติดตั้ง ngBootstrap เป็น Widget Library ใน Angular
+---
+npm install @ng-bootstrap/ng-bootstrap@10.0.x
+
+#7 ติดตั้ง Font Awesome 5 Icons Library ใน Angular
+---
+npm install @fortawesome/fontawesome-free-webfonts@1.0.x
+
+#8 เพิ่ม path ของ bootstrap และfortawesome ที่ไฟล์ angular.json
+---
+"styles": [
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fontawesome.css",
+              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-regular.css",
+              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-brands.css",
+              "node_modules/@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
+            ],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
+
+#9 เพิ่ม ngBootstrap ที่ไฟล์ app.module.ts
+---
+import { NgbAlertModule, NgbModalConfig, NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+
+imports: [
+    NgbModule,
+    NgbPaginationModule,
+    NgbAlertModule
+],
+
+providers: [NgbModalConfig],
+
+#10 สร้างโฟลเดอร์สำหรับเก็บ Page ต่าง ๆ
+---
+pages ใน src/app
+backend ใน src/app/pages
+frontend ใน  src/app/pages
+auth ใน src/app/pages
+
+#11 สร้างโฟลเดอร์สำหรับเก็บ Layouts ต่างๆ
+---
+layouts ใน src/app
+backend-layout ใน src/app/layouts
+frontend-layout ใน src/app/layouts
+auth-layout ใน src/app/layouts
+
+#12 สร้างโฟลเดอร์สำหรับเก็บไฟล์ที่ใช้ร่วมกัน
+---
+shared ใน src/app
+backend ใน src/app/shared
+frontend  ใน src/app/shared
+
+#13 สร้างโฟลเดอร์สำหรับไว้ต่อ API
+---
+services ใน  src/app
+
+#14 สร้างโฟลเดอร์สำหรับไว้เก็บ Model
+---
+models ใน  src/app
+
+#15 โครงสร้างโปรเจ็ตก์
+SmartINVAngularApp
+    |---.git
+    |---node_modules
+    |---src
+    |   |   favicon.ico
+    |   |   index.html
+    |   |   main.ts
+    |   |   polyfills.ts
+    |   |   styles.scss
+    |   |   test.ts
+    |   +---app
+    |   |   +---layouts
+    |   |   |   +---auth-layout
+    |   |   |   +---backend-layout
+    |   |   |   +---frontend-layout
+    |   |   +---models
+    |   |   +---pages
+    |   |   |   +---auth
+    |   |   |   +---backend
+    |   |   |   +---frontend
+    |   |   +---services
+    |   |   +---shared
+    |   |       +---backend
+    |   |       +---frontend
+    |   |   |   app-routing.module.ts
+    |   |   |   app.component.html
+    |   |   |   app.component.scss
+    |   |   |   app.component.spec.ts
+    |   |   |   app.component.ts
+    |   |   |   app.module.ts
+    |   +---assets
+    |   |       .gitkeep
+    |   +---environments
+    |           environment.prod.ts
+    |           environment.ts
+    |   .browserslistrc
+    |   .editorconfig
+    |   .gitignore
+    |   angular.json
+    |   karma.conf.js
+    |   package-lock.json
+    |   package.json
+    |   README.md
+    |   tsconfig.app.json
+    |   tsconfig.json
+    |   tsconfig.spec.json
+
+#16 การสร้าง Layout ด้วยคำสั่ง ng generate component
+---
+ng generate component layouts/frontendLayout
+หรือแบบย่อ
+ng g c layouts/frontendLayout
+ng g c layouts/backendLayout
+ng g c layouts/authLayout
+
+#17 การสร้าง Pages ด้วยคำสั่ง ng generate component
+---
+ng g c pages/frontend/home
+ng g c pages/frontend/about
+ng g c pages/frontend/contact
+
+ng g c pages/auth/login
+ng g c pages/auth/register
+ng g c pages/auth/forgotpass
+
+ng g c pages/backend/dashboard
+ng g c pages/backend/category
+ng g c pages/backend/product
+ng g c pages/backend/report
+ng g c pages/backend/users
+ng g c pages/backend/setting
+
+#18 การสร้าง Shared ด้วยคำสั่ง ng generate component
+---
+ng g c shared/frontend/headerFrontend
+ng g c shared/frontend/footerFrontend
+
+ng g c shared/backend/headerBackend
+ng g c shared/backend/footerBackend
+ng g c shared/backend/sidebarBackend
+
+#19 เพิ่มโค้ดส่วน frontend-layout ที่ไฟล์ 
+frontend-layout.component.html
+---
+<app-header-frontend></app-header-frontend>
+<router-outlet></router-outlet>
+<app-footer-frontend></app-footer-frontend>
+
+#20 เขียนส่วน routing ที่ไฟล์ app-routing.module.ts
+---
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FrontendLayoutComponent } from './layouts/frontend-layout/frontend-layout.component';
+import { HomeComponent } from './pages/frontend/home/home.component';
+
+const routes: Routes = [
+  // Route สำหรับเรียกหน้า Frontend Layout
+  {
+    path: '',
+    component: FrontendLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+        pathMatch: 'full'
+      }
+    ]
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+#21 แก้ไขและลบโค้ดหน้า app.component.html ออกเหลือไว้เพียง
+---
+<router-outlet></router-outlet>
+
+#22 รันดูผลลัพธ์
+---
+ng s -o
+
+#23 เพิ่มโค้ดหน้า header-frontend.component.html
+---
+
+#24 เพิ่มโค้ดหน้า footer-frontend.component.html
+---
+
+#25 เพิ่มไฟล์รูปภาพในโฟลเดอร์ src/assets/images
+---
+
+#26 เพิ่มโค้ดหน้า pages/frontend/home.component.html
+---
+
+#27 เพิ่มโค้ดในไฟล์ styles.scss
+---
+body {
+    font-family: 'Noto Sans Thai', Poppins, sans-serif;
+}
+
+section.footer {
+    background-color: #f8f9fa !important;
+}
+
+.carousel-item img {
+    width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .carousel-item img {
+        width: auto !important;
+        height: 450px;
+    }
+}
+
+#28 เพิ่ม google fonts ที่ไฟล์ index.html
+---
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&family=Poppins&display=swap" rel="stylesheet">
+
+#29 เพิ่มหน้า about.component.html, contact.component.html
+---
+
+#30 เพิ่มโค้ด Routing ที่ไฟล์ app-routing.module.html
+---
+const routes: Routes = [
+  // Route สำหรับเรียกหน้า Frontend Layout
+  {
+    path: '',
+    component: FrontendLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'about',
+        component: AboutComponent
+      },
+      {
+        path: 'contact',
+        component: ContactComponent
+      },
+    ]
+  }
+];
+
+#31 เพิ่มโค้ด Routing ที่ไฟล์ app-routing.module.html
+---
+// Route สำหรับเรียกหน้า Auth Layout
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'forgotpass',
+        component: ForgotpassComponent
+      }
+    ]
+  },
+
+#32 เพิ่มโค้ดหน้า auth-layout.component.html
+---
+<router-outlet></router-outlet>
+
+#33 เพิ่มโค้ดหน้า src/app/pages/auth/register/register.component.html
+---
+
+#34 เพิ่มโค้ดหน้า src/app/pages/auth/register/login.component.html
+---
+
+#35 เพิ่มโค้ดหน้า src/app/pages/auth/register/forgotpass.component.html
+---
+
+#36 เพิ่มโค้ด Routing ที่ไฟล์ app-routing.module.html
+---
+// Route สำหรับเรียกหน้า Backend Layout
+  {
+    path: 'backend',
+    component: BackendLayoutComponent,
+    children:[
+      {
+        path: '',
+        component: DashboardComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'category',
+        component: CategoryComponent,
+      },
+      {
+        path: 'product',
+        component: ProductComponent,
+      },
+      {
+        path: 'report',
+        component: ReportComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'settings',
+        component: SettingComponent,
+      }
+
+#37 แก้ไขไฟล์ src/app/layouts/backend-layout/backend-layout.component.html
+---
+<app-header-backend></app-header-backend>
+
+<div class="row">
+    <div style="position: fixed; width: 290px;">
+        <app-sidebar-backend></app-sidebar-backend>
+    </div>
+    <div class="col-md-10" style="margin-left: 300px;">
+        <div class="box-content">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer-backend></app-footer-backend>
+    </div>
+</div>
+
+#38 แก้ไขไฟล์ src/app/layouts/backend-layout/backend-layout.component.scss
+---
+.box-content {
+    padding-top: 100px;
+}
+
+#39 แก้ไขไฟล์ src/app/shared/backend/header-backend/header-backend.component.html
+---
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container-fluid mx-4">
+        <a class="navbar-brand" routerLink="/backend">SmartINV</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    สามิตร ไอทีจีเนียส
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" routerLink="/dashboard/profile">ข้อมูลส่วนตัว</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/auth/login">ออกจากระบบ</a></li>
+                </ul>
+            </li>
+        </ul>
+        </div>
+    </div>
+</nav>
+
+
+#40 แก้ไขไฟล์ src/app/shared/backend/header-backend/header-backend.component.scss
+---
+.logo {
+    width: 40px;
+    margin-right: 10px;
+}
+  
+.navbar-dark, .bg-dark {
+    background-color: blueviolet !important;
+    font-size: 20px;
+}
+
+.navbar-brand {
+    font-size: 20px;
+}
+
+.dropdown-item {
+    font-size: 20px;
+}
+
+#41 แก้ไขไฟล์  src/app/shared/backend/sidebar-backend/sidebar-backend.component.html
+---
+<div class="box_side">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a routerLink="/backend">แดชบอร์ด</a></li>
+        <li class="list-group-item"><a routerLink="/backend/category">หมวดหมู่</a></li>
+        <li class="list-group-item"><a routerLink="/backend/product">สินค้า</a></li>
+        <li class="list-group-item"><a routerLink="/backend/report">รายงาน</a></li>
+        <li class="list-group-item"><a routerLink="/backend/users">ผู้ใช้</a></li>
+        <li class="list-group-item"><a routerLink="/backend/settings">ตั้งค่า</a></li>
+      </ul>
+</div>
+
+
+#42 แก้ไขไฟล์  src/app/shared/backend/sidebar-backend/sidebar-backend.component.scss
+---
+.box_side {
+  height: 98vh;
+  background: #383737;
+  padding-top: 80px;
+}
+
+.list-group-flush .list-group-item {
+  background: #383737;
+}
+
+.list-group-flush .list-group-item a {
+  color: #fff !important;
+  font-size: 20px;
+  display: block;
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+#43 ติดตั้ง package สำหรับการแสดง chart
+---
+npm i angular2-chartjs@0.5.x
+
+#44 ติดตั้ง jquery
+---
+npm i jquery@3.4.x
+
+#45 แก้ไขไฟล์ angular.json
+---
+"scripts": [
+"node_modules/jquery/dist/jquery.min.js",
+"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
+
+#46 แก้ไขไฟล์ /src/app/app.module.ts
+---
+// Chart JS
+import { ChartModule } from 'angular2-chartjs';
+
+imports: [
+    ...
+    ...
+    ChartModule,
+  ],
+
+#47 แก้ไขไฟล์ src/app/pages/backend/dashboard/dashboard.component.html
+---
+<h1>แดชบอร์ด</h1>
+<div class="row">
+
+    <chart [type]="typeChart1" [data]="dataChart1" [options]="optionsChart1" style="height: 400px"></chart>
+    
+    <chart [type]="typeChart" [data]="dataChart" [options]="optionsChart" style="height: 400px"></chart>
+    
+</div>
+
+#48 แก้ไขไฟล์ src/app/pages/backend/dashboard/dashboard.component.ts 
+---
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+})
+export class DashboardComponent implements OnInit {
+
+  typeChart:any;
+  dataChart:any;
+  optionsChart:any;
+
+  typeChart1:any;
+  dataChart1:any;
+  optionsChart1:any;
+
+  constructor() { }
+
+  ngOnInit(): void {
+    // Bar Chart
+    this.typeChart = 'bar' // สามารถกำหนดเป็น 'line','bar','radar','pie','doughnut','polarArea','bubble','scatter
+   
+    this.dataChart = {
+      labels: ["Jan","Feb","March","April","May","June","July","August","Sep","Oct","Nov","Dec"],
+      datasets:[
+          {
+                label: "Stock Summary Chart",
+                data: [9,7,42,30,12,10,15,61,19,3,1,9], 
+                backgroundColor : ['#1abc9c', '#3498db', '#9b59b6', '#bdc3c7', '#f39c12','#1abc9c', '#3498db', '#9b59b6', '#bdc3c7', '#f39c12','#1abc9c', '#3498db']
+          }
+        ]
+    }
+    
+     this.optionsChart ={
+      responsive: true,
+      maintainAspectRatio: false
+    }
+
+    // Line Chart
+    this.typeChart1 = 'line' // สามารถกำหนดเป็น 'line','bar','radar','pie','doughnut','polarArea','bubble','scatter
+   
+    this.dataChart1 = {
+      labels: ["Jan","Feb","March","April","May","June","July","August","Sep","Oct","Nov","Dec"], // ชื่อของข้อมูลในแนวแกน x
+      datasets: [{ // กำหนดค่าข้อมูลภายในแผนภูมิแบบเส้น
+        label: 'Number of items sold in months',
+        data: [9,7,42,30,12,10,15,61,19,3,1,9], 
+        fill: false,
+        lineTension: 0.2,
+        borderColor: "orange", // สีของเส้น
+        borderWidth: 4
+     }]
+    }
+    
+     this.optionsChart1 ={
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  }
+
+}
+
+
+#49 แก้ไขไฟล์ src\app\pages\backend\category\category.component.html
+---
+<div class="mb-4 d-sm-flex align-items-center justify-content-between">
+    <h1 class="mb-0 text-gray-800">หมวดหมู่สินค้า</h1>
+
+    <div>
+        <a data-bs-toggle="modal" data-bs-target="#modalAdd" class="shadow-sm d-none d-sm-inline-block btn btn-lg btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> เพิ่มรายการ</a>
+    </div>
+
+</div>
+
+<table class="table table-bordered table-striped table-hover mt-4">
+    <thead>
+        <tr class="text-white bg-primary">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mobile</td>
+            <td>Enable</td>
+            <td>19/12/2021 13:56</td>
+            <td>19/12/2021 13:56</td>
+            <td style="width: 180px;">
+                <a role="button" class="btn btn-warning text-white"><i class="fas fa-edit"></i> แก้ไข</a>&nbsp;
+                <a role="button" class="btn btn-danger text-white" role="button"><i class="fas fa-trash-alt"></i> ลบ</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#50 แก้ไขไฟล์ src\app\pages\backend\product\product.component.html
+---
+<div class="mb-4 d-sm-flex align-items-center justify-content-between">
+    <h1 class="mb-0 text-gray-800">รายการสินค้า</h1>
+
+    <div>
+        <a href="/backend/create_category" class="shadow-sm d-none d-sm-inline-block btn btn-lg btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> เพิ่มรายการ</a>
+    </div>
+
+</div>
+
+<table class="table table-bordered table-striped table-hover mt-4">
+    <thead>
+        <tr class="text-white bg-primary">
+            <th>ID</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td><img src="https://cdn.siamphone.com/spec/apple/images/ipad_pro_12.9%E2%80%91inch/com_1.jpg" width="50"></td>
+            <td>iPad Pro 2021</td>
+            <td>Tablet</td>
+            <td>18,500.00	</td>
+            <td>10</td>
+            <td>20/11/2021 00:00:00</td>
+            <td>20/11/2021 00:00:00</td>
+            <td style="width: 200px;">
+                <a role="button" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>&nbsp;
+                <a role="button" class="btn btn-danger text-white" role="button"><i class="fas fa-trash-alt"></i> Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+#51 สร้างไฟล์ src/app/models/category.model.ts
+---
+export class CategoryModel {
+    _id!: string;
+    CategoryID!: string;
+    CategoryName!: string;
+    CategoryStatus!: string;
+    CreatedDate!: string;
+    ModifiedDate!: string;
+}
+
+#52 สร้างไฟล์ src/app/service/common/constant.service.ts 
+---
+ng g service services/common/constant
+---
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ConstantService {
+
+  baseAPIURL = "http://localhost:5000/api/";  
+  constructor() { }
+
+}
+
+#53 สร้างไฟล์ src/app/service/category.service.ts
+---
+ng g service services/category
+----
+
+
+#54 แก้ไขไฟล์ app.module.ts
+---
+// HttpModule
+import { HttpClientModule } from '@angular/common/http';
+
+// Form Module
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Constant Service
+import { ConstantService } from './services/common/constant.service';
+
+imports: [
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
+],
+
+providers: [ConstantService],
+
+#55 แก้ไขไฟล์ src/app/service/category.service.ts
+---
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { ConstantService } from './common/constant.service'
+
+// model
+import { CategoryModel } from '../models/category.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CategoryService {
+
+  // Headers
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    })
+  }
+
+  constructor(private http: HttpClient, private constant: ConstantService) { }
+
+  // อ่านข้อมูล Category ทั้งหมด (Method GET)
+  getCategories(): Observable<CategoryModel>{
+    return this.http.get<CategoryModel>(this.constant.baseAPIURL + 'categories')
+  }
+
+  // อ่านข้อมูล Category By ID (Method GET)
+  getCategory(id: string): Observable<CategoryModel> {
+    return this.http.get<CategoryModel>(this.constant.baseAPIURL + 'category/'+id)
+  }
+
+  // เพิ่มข้อมูลหมวดหมู่ใหม่ (Method POST)
+  createCategory(category: any): Observable<CategoryModel> {
+    return this.http.post<CategoryModel>(this.constant.baseAPIURL + "category", JSON.stringify(category), this.httpOptions)
+  }
+
+  // แก้ไขข้อมุล Category (Method PUT)
+  updateCategory(id: string, category: any): Observable<CategoryModel> {
+    return this.http.put<CategoryModel>(this.constant.baseAPIURL + "edit_category/"+id, JSON.stringify(category), this.httpOptions) 
+  }
+
+   // ลบรายการ Category (Method DELETE)
+   deleteCategory(id: string){
+    return this.http.delete<CategoryModel>(this.constant.baseAPIURL + "delete_category/"+id,  this.httpOptions)
+  }
+
+}
+
+#56 แก้ไขไฟล์ src\app\pages\backend\category\category.component.ts
+---
+import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../../../services/category.service'
+
+declare var $: any
+
+@Component({
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.scss']
+})
+export class CategoryComponent implements OnInit {
+
+  // สร้างตัวแปรรับข้อมูลจาก API
+  dataCategory:any = []
+
+  constructor(private api: CategoryService) { 
+  }
+
+  ngOnInit(): void {
+    // Read Product API
+    this.fetchCategory()
+  }
+
+  // ฟังกชันก์ในการโหลดข้อมูลทั้งหมดแสดงในตาราง
+  fetchCategory(){
+    this.api.getCategories().subscribe((data: any) => {
+      console.log(data)
+      this.dataCategory = data
+    })
+  }
+
+}
+
+#57 แก้ปัญหา at 'http://localhost:5000/api/categories' from origin 'http://localhost:4200' has been blocked by CORS policy: No 'Access-Control-Allow-Origin'
+
+แก้ไขที่ฝั่ง NodeJS RestAPI ไฟล์ app.js
+---
+// Fix CORS
+var allowCrossDomain = function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control");
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next()
+    }
+};
+app.use(allowCrossDomain)
+
+
+#58 แก้ไขไฟล์ src\app\pages\backend\category\category.component.html
+---
+    <tbody>
+        <tr *ngFor="let c of dataCategory">
+            <td>{{ c.CategoryID }}</td>
+            <td>{{ c.CategoryName }}</td>
+            <td>{{ c.CategoryStatus == 1 ? 'เปิดใช้งาน': 'ปิดใช้งาน' }}</td>
+            <td>{{ c.CreatedDate }}</td>
+            <td>{{ c.ModifiedDate }}</td>
+            <td style="width: 200px;">
+                <a role="button" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>&nbsp;
+                <a role="button" class="btn btn-danger text-white" role="button"><i class="fas fa-trash-alt"></i> Delete</a>
+            </td>
+        </tr>
+    </tbody>
+
+#59  แก้ไขไฟล์ src\app\pages\backend\category\category.component.html
+---
+<!-- Modal สำหรับไว้เพิ่มรายการสินค้าใหม่-->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">เพิ่มหมวดหมู่ใหม่</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+            <form>
+
+            <div class="mb-3 row">
+                <label for="CategoryName" class="col-sm-3 col-form-label">ชื่อหมวดหมู่</label>
+                <div class="col-sm-9">
+                <input type="text" class="form-control" name="CategoryName" id="CategoryName" placeholder="ชื่อหมวดหมู่" [(ngModel)]="dataCategoryAdd.CategoryName">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="CategoryStatus" class="col-sm-3 col-form-label">สถานะ</label>
+                <div class="col-sm-9">
+                <select name="CategoryStatus" id="CategoryStatus" class="form-control" [(ngModel)]="dataCategoryAdd.CategoryStatus">
+                    <option value="">--เลือกสถานะ--</option>
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
+                </select>
+                </div>
+            </div>
+
+            
+            <div class="mb-3 row">
+                <div class="offset-sm-3 col-sm-9">
+                <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+                </div>
+            </div>
+
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+#59 ติดตั้ง Sweet Alert 2
+----
+npm install sweetalert2@11.3.x
+
+#60 แก้ไขเพิ่ม sweet alert ที่ไฟล์ angular.json
+----
+....
+
+"styles": [
+
+      "src/styles.css",
+
+      "node_modules/sweetalert2/src/sweetalert2.scss"
+
+    ],
+
+....
+
+#61 แก้ไขไฟล์ src\app\pages\backend\category\category.component.ts
+---
+// ฟังก์ชันการบันทึกรายการหมวดหมู่
+   submitAddProduct(){
+    if(this.dataCategoryAdd.CategoryName == '' || this.dataCategoryAdd.CategoryStatus == ''){
+      Swal.fire({
+        icon: 'error',
+        title: 'ป้อนข้อมูลให้ครบก่อน',
+      })
+    }else{
+      this.api.createCategory(this.dataCategoryAdd).subscribe((data: {}) => {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'เพิ่มหมวดหมู่ใหม่เรียบร้อยแล้ว',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.fetchCategory(); // โหลดข้อมูลใหม่แสดงในตาราง
+        // ปิดหน้าต่าง Modal Add สินค้า
+        $("#modalAdd").modal('hide');
+        // การเคลียร์ค่าจากฟอร์ม
+        this.dataCategoryAdd = {
+          "CategoryName":"",
+          "CategoryStatus":""
+        }
+      });
+    }
+  }
+
+
+#62 แก้ไขไฟล์ src\app\pages\backend\category\category.component.ts ทำส่วนการแก้ไขหมวดหมู่
+---
+  // สร้างตัวแปรสำหรับดึงข้อมูลหมวดหมู่แสดงบนฟอร์มเพื่อแก้ไข
+  dataCategoryEdit = {
+    "cat_id":"",
+    "CategoryName":"",
+    "CategoryStatus":""
+  }
+
+// ฟังก์ชันแสดงหน้าต่างแก้ไขข้อมูล
+  editCategory(id: string){
+    this.api.getCategory(id).subscribe((data: any) => {
+      // console.log(data[0].CategoryName)
+      this.dataCategoryEdit.cat_id = data[0]._id
+      this.dataCategoryEdit.CategoryName = data[0].CategoryName
+      this.dataCategoryEdit.CategoryStatus = data[0].CategoryStatus
+      // แสดง Modal 
+      $("#modalEdit").modal('show');
+    });
+  }
+
+  // ฟังก์ขันสำหรับการแก้ไขข้อมูล
+  submitEditCategory(){
+    this.api.updateCategory((this.dataCategoryEdit.cat_id), this.dataCategoryEdit).subscribe((data: {}) => {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'แก้ไขหมวดหมู่เรียบร้อยแล้ว',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      // ซ่อน Modal
+      $("#modalEdit").modal('hide');
+      // โหลดรายการหมวดหมู่ใหม่
+      this.fetchCategory(); // โหลดข้อมูลใหม่แสดงในตาราง
+    });
+  }
+
+#63 แก้ไขไฟล์ src\app\pages\backend\category\category.component.html ทำส่วนการแก้ไขหมวดหมู่
+---
+<!-- Modal สำหรับแก้ไขรายการสินค้า -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">แก้ไขหมวดหมู่สินค้า</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="container">
+           <form>
+             <div class="mb-3 row">
+               <label for="CategoryName" class="col-sm-3 col-form-label">ชื่อหมวดหมู่</label>
+               <div class="col-sm-9">
+                 <input type="text" class="form-control" name="CategoryName" id="CategoryName" placeholder="ชื่อสินค้า" [(ngModel)]="dataCategoryEdit.CategoryName">
+               </div>
+             </div>
+ 
+             <div class="mb-3 row">
+                <label for="CategoryStatus" class="col-sm-3 col-form-label">สถานะ</label>
+                <div class="col-sm-9">
+                <select name="CategoryStatus" id="CategoryStatus" class="form-control" [(ngModel)]="dataCategoryEdit.CategoryStatus">
+                    <option value="1">เปิดใช้งาน</option>
+                    <option value="0">ปิดใช้งาน</option>
+                </select>
+                </div>
+            </div>
+ 
+             <input type="hidden" class="form-control" name="cat_id" id="cat_id" [(ngModel)]="dataCategoryEdit.cat_id">
+             
+             <div class="mb-3 row">
+               <div class="offset-sm-3 col-sm-9">
+                 <button type="submit" class="btn btn-primary" (click)="submitEditCategory()">บันทึกข้อมูล</button>
+               </div>
+             </div>
+           </form>
+         </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+#64 แก้ไขไฟล์ src\app\pages\backend\category\category.component.ts ทำส่วนการลบหมวดหมู่
+---
+// ฟังก์ชันสำหรับการลบข้อมูล
+  deleteCategory(id: string){
+
+    Swal.fire({
+      title: 'ยืนยันการลบรายการนี้',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#cbced4',
+      confirmButtonText: 'ใช่ ลบเลย',
+      cancelButtonText: 'ไม่เก็บไว้ก่อน'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'ลบรายการเรียบร้อยแล้ว',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.api.deleteCategory(id).subscribe((data: any)=>{
+          // โหลดรายการหมวดหมู่ใหม่
+          this.fetchCategory(); // โหลดข้อมูลใหม่แสดงในตาราง
+        });
+      }
+    })
+
+  }
+
+การ Deployed Project Node.JS ขึ้น Heroku
+------------------------------------------------------------
+#1 แก้ไขไฟล์ app.js
+---
+const port = process.env.PORT || 5000
+
+// Run Express Server ที่ Port 5000
+app.listen(port, ()=> {
+    console.log('Server run at port 5000')
+})
+
+#2 แก้ไขไฟล์ package.json
+---
+"engines": {
+    "node": "14.15.0",
+    "npm": "6.14.8"
+  }
+
+#3 สร้างไฟล์ Procfile ไว้ด้านนอกสุดของโปรเจ็กต์
+---
+web: node app.js
+
+การ Deployed Project Angular ขึ้น Netlify
+------------------------------------------------------------
+#1 แก้ไขไฟล์ src\app\services\common\constant.service.ts
+---
+baseAPIURL = "https://smart-inventory-ep3.herokuapp.com/api/"
+
+#2 แก้ไขไฟล์ angular.json
+---
+"outputPath": "dist",
+
+"budgets": [
+ {
+    "type": "initial",
+     "maximumWarning": "2mb",
+      "maximumError": "5mb"
+},
+
+#3 ทดสอบ build สำหรับรันบน xampp (apache)
+---
+ng build --prod --base-href=/smartinvapp/
+
+#4 กรณีรันบน Apache (XAMPP) ต้องสร้างไฟล์ .htaccess ใส่เข้าไปด้วย
+---
+RewriteEngine on
+# Don't rewrite files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rewrite everything else to index.html to allow html5 state links
+RewriteRule ^ index.html [L]
+
+#5 เอาโปรเจ็กต์ขึ้น github
+---
+
+#6 Login เข้าเว็บไซต์ Netlify.com
+---
+
+#7 แก้ปัญหา 404 โดยการเพิ่มไฟล์ _redirects ไว้ในโฟล์เดอร์ src/_redirects
+---
+/*  /index.html 200
+
+และแก้ไขไฟล์ angular.json
+---
+"assets": [
+        "src/favicon.ico",
+         "src/assets",
+          {
+                "glob": "_redirects",
+                "input": "src",
+                "output": "/"
+          }
+],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
