@@ -15,10 +15,14 @@ export class ProductComponent implements OnInit {
   // สร้างตัวแปรรับข้อมูลจาก API
   dataProducts: any = []
 
+  // สร้างตัวแปรรับข้อมูลจาก API
+  dataCategory: any = []
+
   //สร้างตัวแปรกำหนดค่าบนฟอร์มเพิ่มสินค้า
   dataProductsAdd = {
   "ProductName":"",
   "CategoryID":"",
+  "CategoryName":"",
   "UnitPrice":"",
   "UnitInStock":"",
   "ProductPicture":""
@@ -45,9 +49,17 @@ export class ProductComponent implements OnInit {
   fetchProducts(){
     this.api.getProducts().subscribe((data: any) => {
       //console.log(data)
-      this.dataProducts = data
+      this.dataProducts = data 
     })
   }
+
+  getProductsCat(){
+    this.api.getProductsCat().subscribe((data: any) => {
+      this.dataCategory = data
+  })
+  }
+
+  
 
    // ฟังก์ชันการบันทึกรายการสินค้า
    submitAddProducts(){
@@ -72,6 +84,7 @@ export class ProductComponent implements OnInit {
         this.dataProductsAdd = {
           "ProductName":"",
           "CategoryID":"",
+          "CategoryName":"",
           "UnitPrice":"",
           "UnitInStock":"",
           "ProductPicture":""

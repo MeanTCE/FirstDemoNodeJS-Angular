@@ -2,7 +2,7 @@
     <h1 class="mb-0 text-gray-800">รายการสินค้า</h1>
 
     <div>
-        <a data-bs-toggle="modal" data-bs-target="#modalAdd" class="shadow-sm d-none d-sm-inline-block btn btn-lg btn-success"><i class="fas fa-plus fa-sm text-white-50"></i> เพิ่มรายการ</a>
+        <a data-bs-toggle="modal" data-bs-target="#modalAdd" class="shadow-sm d-none d-sm-inline-block btn btn-lg btn-success" (click)="getProductsCat()"><i class="fas fa-plus fa-sm text-white-50"></i> เพิ่มรายการ</a>
     </div>
 
 </div>
@@ -63,8 +63,8 @@
                         <label for="CategoryID" class="col-sm-3 col-form-label">ชื่อหมวดหมู่</label>
                         <div class="col-sm-9">
                             <select name="CategoryID" id="CategoryID" placeholder="ชื่อหมวดหมู่" [(ngModel)]="dataProductsAdd.CategoryID">
-                                <option *ngFor="let p of dataProducts"  [ngValue]="p.category[0].CategoryID">
-                                    {{p.category[0].CategoryName}}
+                                <option *ngFor="let c of dataCategory"  [ngValue]="c.CategoryID">
+                                    {{c.CategoryName}}
                                 </option>            
                             </select>
                         </div>

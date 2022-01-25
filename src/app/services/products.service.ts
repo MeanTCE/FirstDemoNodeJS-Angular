@@ -5,6 +5,7 @@ import { ConstantService } from './common/constant.service';
 
 //Model
 import { ProductsModel } from '../models/category.model';
+import { CategoryModel } from '../models/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,11 @@ export class ProductsService {
     }
 
   constructor(private http: HttpClient, private constant: ConstantService) { }
+
+  // อ่านข้อมูล Category ทั้งหมด (Method GET)
+  getProductsCat(): Observable<CategoryModel>{
+    return this.http.get<CategoryModel>(this.constant.baseAPIURL + 'categories')
+  }
 
   // อ่านข้อมูล Products ทั้งหมด (Method GET)
   getProducts(): Observable<ProductsModel>{
